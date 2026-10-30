@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
 import Seo from "../components/Seo.astro";
+import ThemeToggle from "../components/ThemeToggle";
 import type { SocialImage } from "../lib/seo";
+import { THEME_COLORS, THEME_STORAGE_KEY } from "../lib/theme";
 
 interface Props {
   title?: string;
@@ -24,6 +26,14 @@ const { title, description, path, image } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d1a1d" media="(prefers-color-scheme: dark)" />
+    <script is:inline define:vars={{ key: THEME_STORAGE_KEY, colors: THEME_COLORS }}>
+      // Pre-paint theme (see src/lib/theme.ts): stored choice wins, else the system.
+      let t = null;
+      try { t = localStorage.getItem(key); } catch { /* blocked storage: follow the system */ }
+      if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = t;
+      document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) { m.content = colors[t]; });
+    </script>
     <Seo title={title} description={description} path={path} image={image} />
   </head>
   <body class="min-h-screen bg-bg font-sans text-ink antialiased">
@@ -33,6 +43,9 @@ const { title, description, path, image } = Astro.props;
     >
       Skip to content
     </a>
+    <header class="mx-auto flex max-w-5xl justify-end px-6 pt-4 sm:px-10">
+      <ThemeToggle client:load />
+    </header>
     <main id="main" tabindex="-1" class="mx-auto max-w-5xl px-6 focus:outline-none sm:px-10">
       <slot />
     </main>
