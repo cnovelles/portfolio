@@ -45,6 +45,10 @@ export const experienceEntrySchema = z
     // Some roles (e.g. research positions) have no formal title on the resume.
     title: z.string().trim(),
     location: z.string().trim().min(1).optional(),
+    /** Company logo file in src/assets/logos; roles without one get a monogram. */
+    logo: z.enum(["american-express", "vmware"]).optional(),
+    /** Short text for the monogram tile when there is no logo. */
+    monogram: z.string().trim().min(1).max(4).optional(),
     /** One plain sentence on what the role was about. */
     summary: z.string().trim().min(1).optional(),
     start: yearMonthSchema,
@@ -137,6 +141,7 @@ const rawProfile = {
     {
       company: "FIU Applied Research Center / Pacific Northwest National Laboratory",
       title: "Undergraduate Research Fellow",
+      monogram: "FIU",
       summary: "Research software for FIU and Pacific Northwest National Laboratory teams.",
       start: "2020-11",
       end: "2021-11",
@@ -149,6 +154,7 @@ const rawProfile = {
     {
       company: "American Express",
       title: "Full Stack Software Engineer, Credit & Collections",
+      logo: "american-express",
       summary:
         "Payments experiences for card members, from React micro-frontends to the Node.js and Java APIs behind them.",
       start: "2023-03",
@@ -165,6 +171,7 @@ const rawProfile = {
     {
       company: "VMware",
       title: "Front End Software Engineering Intern",
+      logo: "vmware",
       location: "Remote",
       summary: "Front-end internship on VMware Tanzu Community Edition, an open-source Kubernetes distribution.",
       start: "2022-06",

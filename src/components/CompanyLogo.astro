@@ -1,0 +1,50 @@
+---
+/*
+  Company logo tile. Official marks from Simple Icons (CC0 files; the logos
+  remain their owners' trademarks), shown unaltered in brand color on a white
+  tile so they read the same in both themes. Decorative: the company name is
+  always printed next to the tile.
+*/
+import AmericanExpress from "../assets/logos/american-express.svg";
+import VMware from "../assets/logos/vmware.svg";
+import type { ExperienceEntry } from "../data/profile";
+
+interface Props {
+  logo?: ExperienceEntry["logo"];
+  monogram?: string;
+  size?: "sm" | "md";
+}
+
+const { logo, monogram, size = "md" } = Astro.props;
+
+const logos = {
+  "american-express": { Mark: AmericanExpress, color: "#2E77BC", wide: false },
+  // A wordmark: less padding so it stays legible in a square tile.
+  vmware: { Mark: VMware, color: "#607078", wide: true },
+} as const;
+
+const entry = logo ? logos[logo] : undefined;
+const padding = entry?.wide ? (size === "sm" ? "p-0.5" : "p-1") : size === "sm" ? "p-1" : "p-2.5";
+const tile = [size === "sm" ? "size-7 rounded-md" : "size-12 rounded-xl", padding];
+---
+
+{
+  entry ? (
+    <span aria-hidden="true" class:list={["inline-flex shrink-0 border border-line bg-white", tile]}>
+      <entry.Mark fill={entry.color} class="size-full" />
+    </span>
+  ) : (
+    monogram && (
+      <span
+        aria-hidden="true"
+        class:list={[
+          "inline-flex shrink-0 items-center justify-center bg-surface font-display font-bold text-accent",
+          tile,
+          size === "sm" ? "text-[0.5rem]" : "text-sm",
+        ]}
+      >
+        {monogram}
+      </span>
+    )
+  )
+}

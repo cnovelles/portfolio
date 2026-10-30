@@ -1,5 +1,6 @@
 ---
 import { identity } from "../data/profile";
+import CompanyLogo from "./CompanyLogo.astro";
 import HeroDiagram from "./HeroDiagram.astro";
 
 const { resume, github, linkedin } = identity.links;
@@ -55,7 +56,12 @@ const inlineLink =
       </li>
     </ul>
 
-    <p class="mt-6 text-muted">
+    <p class="mt-8 flex items-center gap-2.5 text-[0.9375rem] text-muted">
+      <CompanyLogo logo="american-express" size="sm" />
+      <span>Most recently at <span class="font-semibold text-ink">American Express</span></span>
+    </p>
+
+    <p class="mt-4 text-muted">
       Find me on <a href={github.href} class={inlineLink}>GitHub</a> and{" "}
       <a href={linkedin.href} class={inlineLink}>LinkedIn</a>.
     </p>
