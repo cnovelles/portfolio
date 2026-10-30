@@ -1,0 +1,74 @@
+---
+/*
+  How the most recent role fit together. Every box maps to confirmed work:
+  payments, bank-account, and landing-page micro-frontends composed by
+  One App, backed by Node.js and Java APIs, serving 7 international markets.
+*/
+const modules = [
+  { x: 8, label: "Payments" },
+  { x: 148, label: "Bank accounts" },
+  { x: 288, label: "Landing pages" },
+];
+---
+
+<figure class="w-full max-w-[28rem]">
+  <svg
+    viewBox="0 0 420 372"
+    role="img"
+    aria-labelledby="diagram-title diagram-desc"
+    class="h-auto w-full font-sans"
+  >
+    <title id="diagram-title">How my work at American Express fit together</title>
+    <desc id="diagram-desc">
+      Three independently deployed micro-frontends, for payments, bank accounts, and landing pages,
+      are composed at runtime by One App. One App calls Node.js and Java REST APIs and serves
+      customers in 7 international markets.
+    </desc>
+
+    <g class="stroke-line" stroke-width="2" fill="none">
+      {modules.map((m) => <path d={`M${m.x + 62} 76 C ${m.x + 62} 118, 210 112, 210 150`} />)}
+      <path d="M180 214 C 180 250, 112 250, 112 282" />
+      <path d="M240 214 C 240 250, 308 250, 308 282" />
+    </g>
+
+    {
+      modules.map((m) => (
+        <g>
+          <rect x={m.x} y="16" width="124" height="60" rx="14" class="fill-bg stroke-line" stroke-width="1.5" />
+          <text x={m.x + 62} y="42" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">
+            {m.label}
+          </text>
+          <text x={m.x + 62} y="61" text-anchor="middle" class="fill-muted" font-size="12">
+            micro-frontend
+          </text>
+        </g>
+      ))
+    }
+
+    <rect x="120" y="150" width="180" height="64" rx="16" class="fill-accent" />
+    <text x="210" y="178" text-anchor="middle" class="fill-bg" font-size="18" font-weight="700">
+      One App
+    </text>
+    <text x="210" y="199" text-anchor="middle" class="fill-bg" font-size="12.5">
+      composes them at runtime
+    </text>
+
+    <rect x="24" y="282" width="176" height="60" rx="14" class="fill-bg stroke-line" stroke-width="1.5" />
+    <text x="112" y="308" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">
+      Node.js and Java
+    </text>
+    <text x="112" y="327" text-anchor="middle" class="fill-muted" font-size="12">REST APIs</text>
+
+    <rect x="220" y="282" width="176" height="60" rx="14" class="fill-bg stroke-line" stroke-width="1.5" />
+    <text x="308" y="308" text-anchor="middle" class="fill-ink" font-size="15" font-weight="600">
+      7 markets
+    </text>
+    <text x="308" y="327" text-anchor="middle" class="fill-muted" font-size="12">
+      millions of customers
+    </text>
+  </svg>
+  <figcaption class="mt-3 text-sm text-muted">
+    My last role: micro-frontends on One App, AmEx's open-source framework, and the APIs behind
+    them.
+  </figcaption>
+</figure>

@@ -35,8 +35,13 @@ test("skip link is the first stop and moves focus to main content", async ({ pag
 
 test("every link and button can be reached with the keyboard", async ({ page }) => {
   await page.goto("/");
-  const controls = page.locator("a[href], button");
-  const total = await controls.count();
+  // Only controls actually rendered at this viewport (section links collapse on phones).
+  const total = await page.evaluate(
+    () =>
+      [...document.querySelectorAll<HTMLElement>("a[href], button")].filter(
+        (el) => el.getClientRects().length > 0,
+      ).length,
+  );
 
   const reached = new Set<string>();
   for (let i = 0; i < total + 2; i++) {

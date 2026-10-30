@@ -1,5 +1,6 @@
 ---
 import { identity } from "../data/profile";
+import HeroDiagram from "./HeroDiagram.astro";
 
 const { resume, github, linkedin, email } = identity.links;
 const secondaryLinks = [
@@ -12,39 +13,44 @@ const pill =
   "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
 ---
 
-<section aria-labelledby="hero-heading" class="py-20 sm:py-32">
-  <p class="text-[0.9375rem] text-muted">{identity.location}</p>
-  <h1
-    id="hero-heading"
-    class="mt-4 font-display text-[clamp(2.75rem,8vw,5rem)] leading-[0.95] font-bold tracking-[-0.03em] text-balance"
-  >
-    {identity.name}
-  </h1>
-  <p class="mt-4 text-xl font-semibold text-accent sm:text-[1.3125rem]">{identity.title}</p>
-  <p class="mt-5 max-w-[36em] text-lg leading-relaxed text-muted">{identity.stackLine}</p>
+<section
+  aria-labelledby="hero-heading"
+  class="grid items-center gap-x-12 gap-y-14 py-16 sm:py-24 lg:grid-cols-[1.2fr_1fr]"
+>
+  <div>
+    <h1
+      id="hero-heading"
+      class="font-display text-[clamp(2rem,4.5vw,2.75rem)] leading-tight font-bold tracking-[-0.02em] text-balance"
+    >
+      {identity.name}
+    </h1>
+    <p class="mt-2 text-xl font-semibold text-accent sm:text-[1.3125rem]">{identity.title}</p>
+    <p class="mt-5 max-w-[36em] text-lg leading-relaxed text-muted">{identity.stackLine}</p>
 
-  <ul class="mt-10 flex flex-wrap items-center gap-2.5" aria-label="Resume and contact links">
-    <li>
-      <a
-        href={resume.href}
-        download
-        class:list={[pill, "bg-accent text-bg hover:bg-ink"]}
-      >
-        {resume.label}<span class="sr-only">&nbsp;(PDF download)</span>
-      </a>
-    </li>
-    {
-      secondaryLinks.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            aria-label={link.srLabel}
-            class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+    <ul class="mt-10 flex flex-wrap items-center gap-2.5" aria-label="Resume and contact links">
+      <li>
+        <a
+          href={resume.href}
+          download
+          class:list={[pill, "bg-accent text-bg hover:bg-ink"]}
+        >
+          {resume.label}<span class="sr-only">&nbsp;(PDF download)</span>
+        </a>
+      </li>
+      {
+        secondaryLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-label={link.srLabel}
+              class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <HeroDiagram />
 </section>

@@ -6,6 +6,7 @@
   Design tokens: "Biscayne" direction (#3).
   Every text color meets WCAG AA (4.5:1) on its background in both themes:
   light ink 16.1, muted 7.2, accent 6.0; dark ink 15.0, muted 7.8, accent 9.1.
+  On --color-surface: light ink 14.6, muted 6.5, accent 5.4; dark 13.1, 6.9, 8.0.
 */
 :root {
   --color-bg: #ffffff;
@@ -13,6 +14,7 @@
   --color-muted: #4a5a61;
   --color-accent: #0b6e73;
   --color-line: #d5e2e1;
+  --color-surface: #eef5f4;
   color-scheme: light;
 }
 
@@ -27,6 +29,7 @@
   --color-muted: #9db0b0;
   --color-accent: #5acbc6;
   --color-line: #24383b;
+  --color-surface: #13272b;
   color-scheme: dark;
 }
 
@@ -37,6 +40,7 @@
     --color-muted: #9db0b0;
     --color-accent: #5acbc6;
     --color-line: #24383b;
+    --color-surface: #13272b;
     color-scheme: dark;
   }
 }
@@ -47,6 +51,7 @@
   --color-muted: var(--color-muted);
   --color-accent: var(--color-accent);
   --color-line: var(--color-line);
+  --color-surface: var(--color-surface);
 
   --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
@@ -55,6 +60,14 @@
 @layer base {
   html {
     background-color: var(--color-bg);
+    /* Keeps anchored sections clear of the sticky header. */
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   /* One focus style everywhere, visible on any background in either theme. */

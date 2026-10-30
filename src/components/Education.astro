@@ -1,0 +1,38 @@
+---
+import { formatYearMonth, getEducation } from "../data/profile";
+
+const credentials = getEducation();
+const kindLabel = { degree: "Degree", certification: "Certification" } as const;
+---
+
+<section id="education" aria-labelledby="education-heading" class="border-t border-line py-16 sm:py-24">
+  <h2
+    id="education-heading"
+    class="font-display text-[clamp(2rem,5vw,2.75rem)] leading-tight font-bold tracking-[-0.02em]"
+  >
+    Education
+  </h2>
+
+  <ul class="mt-10 grid gap-x-12 gap-y-8 sm:grid-cols-3">
+    {
+      credentials.map((credential) => (
+        <li class="border-t-2 border-ink pt-4">
+          <p class="text-sm font-medium text-muted">{kindLabel[credential.kind]}</p>
+          <h3 class="mt-2 font-display text-xl font-semibold tracking-[-0.01em] text-balance">
+            {credential.name}
+          </h3>
+          <p class="mt-1 text-muted">{credential.issuer}</p>
+          <p class="mt-1 text-[0.9375rem]">
+            {credential.status === "in-progress" || !credential.date ? (
+              <span class="font-medium text-accent">In progress</span>
+            ) : (
+              <time datetime={credential.date} class="text-muted">
+                {formatYearMonth(credential.date)}
+              </time>
+            )}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</section>

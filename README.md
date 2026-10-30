@@ -29,9 +29,9 @@ Measured on the live site, October 2026.
 
 **Static HTML first, JavaScript only where it earns its place.** Every section is server-rendered Astro. The only client JavaScript is the theme toggle island plus a few lines of inline script that set the theme before first paint, so there's never a flash of the wrong theme.
 
-**One typed source for every career claim.** Identity, experience, skills, and the about text live in [`src/data/profile.ts`](src/data/profile.ts), validated by a zod schema when the module loads. Components only read through typed accessors such as `getExperience()`, so malformed data fails the build instead of rendering.
+**One typed source for every career claim.** Identity, experience, skills, education, and the about text live in [`src/data/profile.ts`](src/data/profile.ts), validated by a zod schema when the module loads. Components only read through typed accessors such as `getExperience()`, so malformed data fails the build instead of rendering.
 
-**A guard against overstated claims.** The experience text mirrors my resume word for word. A unit test scans every title and bullet against a list of phrases I've deliberately retired, so overstated wording can't creep back in through a later edit.
+**A guard against overstated claims.** The experience text mirrors my resume word for word. A unit test scans every title, summary, and bullet against a list of phrases I've deliberately retired, so overstated wording can't creep back in through a later edit.
 
 **Projects as content, not code.** Projects are an [Astro content collection](https://docs.astro.build/en/guides/content-collections/) with a typed schema: required fields, valid dates, and alt text on any cover image. Adding one means adding a single Markdown file. The sorting and featured-filtering logic is pure TypeScript in [`src/lib/projects.ts`](src/lib/projects.ts), tested without Astro. Until the first write-up ships, the section shows an intentional empty state.
 
@@ -45,8 +45,8 @@ Measured on the live site, October 2026.
 
 ```
 src/
-  components/      Page sections (Hero, Experience, Projects, Skills, About, Contact),
-                   Seo, and the ThemeToggle island
+  components/      Page sections (Hero + HeroDiagram, Experience, Projects, Skills,
+                   Education, About, Contact), Seo, and the ThemeToggle island
   content/         Project write-ups (Markdown) + a template
   data/profile.ts  Typed, validated profile data and the claims guard
   layouts/         Base layout: head, theme init, skip link, header, footer

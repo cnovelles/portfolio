@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  credentialSchema,
   experienceEntrySchema,
   findRetractedClaims,
   formatYearMonth,
   getAbout,
+  getEducation,
   getExperience,
   getSkillGroups,
   identity,
@@ -18,6 +20,7 @@ const validEntry: ExperienceEntry = {
   start: "2020-01",
   end: "2021-06",
   bullets: ["Did a thing"],
+  tech: [],
 };
 
 describe("identity", () => {
@@ -44,6 +47,7 @@ describe("profile schema", () => {
     const result = profileSchema.safeParse({
       identity,
       experience: getExperience(),
+      education: getEducation(),
       skillGroups: getSkillGroups(),
       about: getAbout(),
     });
@@ -115,10 +119,39 @@ describe("retracted-claims guard", () => {
     expect(findRetractedClaims([entry]).map((claim) => claim.phrase)).toContain(phrase);
   });
 
+  it("flags retracted phrasing in a role summary", () => {
+    const entry = { ...validEntry, summary: "Pioneered a new approach" };
+    expect(findRetractedClaims([entry]).map((claim) => claim.phrase)).toContain("pioneered");
+  });
+
   it("flags retracted phrasing in a title", () => {
     const entry = { ...validEntry, title: "Engineer who spearheaded things" };
     expect(findRetractedClaims([entry])).toEqual([
       { phrase: "spearheaded", company: "Example Co", text: entry.title },
     ]);
+  });
+});
+
+describe("education", () => {
+  it("lists the degree first, then certifications", () => {
+    const kinds = getEducation().map((credential) => credential.kind);
+    expect(kinds[0]).toBe("degree");
+    expect(kinds.slice(1).every((kind) => kind === "certification")).toBe(true);
+  });
+
+  it("never shows an in-progress credential with a completion date", () => {
+    for (const credential of getEducation()) {
+      expect(credential.status === "earned").toBe(credential.date !== undefined);
+    }
+  });
+
+  it("rejects an earned credential without a date", () => {
+    const result = credentialSchema.safeParse({
+      kind: "certification",
+      name: "Example",
+      issuer: "Example Org",
+      status: "earned",
+    });
+    expect(result.success).toBe(false);
   });
 });
