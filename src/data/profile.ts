@@ -139,17 +139,28 @@ const rawProfile = {
   // Listed in any order; getExperience() returns them most recent first.
   experience: [
     {
-      company: "FIU Applied Research Center / Pacific Northwest National Laboratory",
-      title: "Undergraduate Research Fellow",
+      company: "FIU Applied Research Center",
+      title: "ARC Research Fellow",
       logo: "fiu-arc",
-      summary: "Research software for FIU and Pacific Northwest National Laboratory teams.",
+      summary: "Part-time research role at FIU's Applied Research Center while finishing my degree.",
       start: "2020-11",
-      end: "2021-11",
+      end: "2021-12",
       bullets: [
         "Deployed a deep learning crack-detection model as a REST web service using C# and ASP.NET, MySQL, and Azure",
-        "Implemented a published time-series algorithm to fill gaps in spatial-temporal data across PNNL and FIU research teams",
       ],
       tech: ["C#", "ASP.NET", "MySQL", "Azure"],
+    },
+    {
+      company: "Pacific Northwest National Laboratory",
+      title: "Research Intern",
+      monogram: "PNNL",
+      summary: "12-week summer research internship working with PNNL and FIU research teams.",
+      start: "2021-06",
+      end: "2021-08",
+      bullets: [
+        "Implemented a published time-series algorithm to fill gaps in spatial-temporal data across PNNL and FIU research teams",
+        "Ran correlation analysis on complex well systems to find spatial-temporal patterns",
+      ],
     },
     {
       company: "American Express",
@@ -174,7 +185,7 @@ const rawProfile = {
       logo: "vmware",
       location: "Remote",
       summary: "Front-end internship on VMware Tanzu Community Edition, an open-source Kubernetes distribution.",
-      start: "2022-06",
+      start: "2022-05",
       end: "2022-08",
       bullets: vmwareBullets,
       tech: ["React", "React Hooks", "Clarity", "Node.js", "Jest"],

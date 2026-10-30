@@ -85,7 +85,8 @@ describe("getExperience", () => {
     expect(getExperience().map((entry) => entry.company)).toEqual([
       "American Express",
       "VMware",
-      "FIU Applied Research Center / Pacific Northwest National Laboratory",
+      "FIU Applied Research Center",
+      "Pacific Northwest National Laboratory",
     ]);
   });
 
