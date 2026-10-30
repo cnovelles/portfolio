@@ -117,7 +117,7 @@ const rawProfile = {
   experience: [
     {
       company: "FIU Applied Research Center / Pacific Northwest National Laboratory",
-      title: "",
+      title: "Undergraduate Research Fellow",
       summary: "Research software for FIU and Pacific Northwest National Laboratory teams.",
       start: "2020-11",
       end: "2021-11",
