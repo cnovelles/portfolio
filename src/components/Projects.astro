@@ -1,10 +1,8 @@
 ---
-import { identity } from "../data/profile";
 import { getProjectCatalog } from "../lib/project-collection";
 import { formatDateRange } from "../lib/projects";
 
 const catalog = await getProjectCatalog();
-const { github } = identity.links;
 
 const pill =
   "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
@@ -23,12 +21,7 @@ const statusLabel = { "in-progress": "In progress", shipped: "Shipped" } as cons
     catalog.state === "empty" ? (
       <div class="mt-6 max-w-[36em]">
         <p class="text-lg leading-relaxed text-muted">
-          Write-ups of recent work are on the way. In the meantime, my code is on GitHub.
-        </p>
-        <p class="mt-8">
-          <a href={github.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
-            See my GitHub profile
-          </a>
+          Write-ups of recent work are on the way.
         </p>
       </div>
     ) : (

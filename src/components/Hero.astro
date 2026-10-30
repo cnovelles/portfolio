@@ -3,7 +3,7 @@ import { identity } from "../data/profile";
 import CompanyLogo from "./CompanyLogo.astro";
 import HeroDiagram from "./HeroDiagram.astro";
 
-const { resume, github, linkedin } = identity.links;
+const { resume, linkedin } = identity.links;
 
 const pill =
   "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
@@ -62,8 +62,7 @@ const inlineLink =
     </p>
 
     <p class="mt-4 text-muted">
-      Find me on <a href={github.href} class={inlineLink}>GitHub</a> and{" "}
-      <a href={linkedin.href} class={inlineLink}>LinkedIn</a>.
+      Find me on <a href={linkedin.href} class={inlineLink}>LinkedIn</a>.
     </p>
   </div>
   <HeroDiagram />

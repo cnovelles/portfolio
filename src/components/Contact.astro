@@ -1,7 +1,7 @@
 ---
 import { identity } from "../data/profile";
 
-const { email, linkedin, github } = identity.links;
+const { email, linkedin } = identity.links;
 
 const pill =
   "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
@@ -28,11 +28,6 @@ const pill =
       <li>
         <a href={linkedin.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
           LinkedIn profile
-        </a>
-      </li>
-      <li>
-        <a href={github.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
-          GitHub profile
         </a>
       </li>
     </ul>
