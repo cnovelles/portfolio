@@ -1,0 +1,13 @@
+---
+import { getAbout } from "../data/profile";
+---
+
+<section aria-labelledby="about-heading" class="border-t border-line py-16 sm:py-24">
+  <h2
+    id="about-heading"
+    class="font-display text-[clamp(2rem,5vw,2.75rem)] leading-tight font-bold tracking-[-0.02em]"
+  >
+    About
+  </h2>
+  <p class="mt-6 max-w-[36em] text-lg leading-relaxed text-muted">{getAbout()}</p>
+</section>

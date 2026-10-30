@@ -151,7 +151,7 @@ const rawProfile = {
     },
   ],
   about:
-    "Software engineer with 3+ years building large-scale React, TypeScript, and Node.js applications for millions of customers at American Express, from fast, efficient customer-facing React components to REST APIs, content management system (CMS) integrations, and backend monitoring. Autonomously delivers features from story grooming through production release and partners closely with design and product in Agile teams.",
+    "I'm a full-stack engineer based in Miami. For three years at American Express I built payments features used by millions of customers in seven international markets, from the React front end to the Node.js and Java APIs behind it, and took them through release to production. I'm bilingual in English and Spanish, and AI-assisted development with Claude, Cursor, and Copilot is part of my daily workflow.",
 } satisfies Profile;
 
 // Parsed at import, so malformed data fails the build rather than rendering.

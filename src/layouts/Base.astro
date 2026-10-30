@@ -49,5 +49,16 @@ const { title, description, path, image } = Astro.props;
     <main id="main" tabindex="-1" class="mx-auto max-w-5xl px-6 focus:outline-none sm:px-10">
       <slot />
     </main>
+    <footer class="mx-auto max-w-5xl border-t border-line px-6 py-10 text-[0.9375rem] text-muted sm:px-10">
+      <p>
+        © {new Date().getFullYear()} Christian Gonzalez Lopez. Built with Astro, React, and Tailwind.{" "}
+        <a
+          href="https://github.com/cnovelles/portfolio"
+          class="font-medium text-ink underline decoration-line decoration-2 underline-offset-4 hover:decoration-accent"
+        >
+          View the source code<span class="sr-only">&nbsp;for this site on GitHub</span>
+        </a>
+      </p>
+    </footer>
   </body>
 </html>

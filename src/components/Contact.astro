@@ -1,0 +1,38 @@
+---
+import { identity } from "../data/profile";
+
+const { email, linkedin, github } = identity.links;
+
+const pill =
+  "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
+---
+
+<section id="contact" aria-labelledby="contact-heading" class="border-t border-line py-16 sm:py-24">
+  <h2
+    id="contact-heading"
+    class="font-display text-[clamp(2rem,5vw,2.75rem)] leading-tight font-bold tracking-[-0.02em]"
+  >
+    Contact
+  </h2>
+  <p class="mt-6 max-w-[36em] text-lg leading-relaxed text-muted">
+    I'm open to full-stack and frontend roles, remote or in South Florida. Email is the fastest way
+    to reach me.
+  </p>
+  <ul class="mt-8 flex flex-wrap items-center gap-2.5" aria-label="Contact links">
+    <li>
+      <a href={email.href} class:list={[pill, "bg-accent text-bg hover:bg-ink"]}>
+        Email me<span class="sr-only">&nbsp;at {identity.email}</span>
+      </a>
+    </li>
+    <li>
+      <a href={linkedin.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
+        LinkedIn profile
+      </a>
+    </li>
+    <li>
+      <a href={github.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
+        GitHub profile
+      </a>
+    </li>
+  </ul>
+</section>
