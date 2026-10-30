@@ -1,12 +1,17 @@
 ---
 import "../styles/global.css";
+import Seo from "../components/Seo.astro";
+import type { SocialImage } from "../lib/seo";
 
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  /** Root-relative canonical path; defaults to the current URL's path. */
+  path?: string;
+  image?: SocialImage;
 }
 
-const { title, description } = Astro.props;
+const { title, description, path, image } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,8 +24,7 @@ const { title, description } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0d1a1d" media="(prefers-color-scheme: dark)" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <Seo title={title} description={description} path={path} image={image} />
   </head>
   <body class="min-h-screen bg-bg font-sans text-ink antialiased">
     <a
