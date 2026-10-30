@@ -1,1 +1,62 @@
 @import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+@import "@fontsource-variable/hanken-grotesk/wght.css";
+
+/*
+  Design tokens: "Biscayne" direction (#3).
+  Every text color meets WCAG AA (4.5:1) on its background in both themes:
+  light ink 16.1, muted 7.2, accent 6.0; dark ink 15.0, muted 7.8, accent 9.1.
+*/
+:root {
+  --color-bg: #ffffff;
+  --color-ink: #14232a;
+  --color-muted: #4a5a61;
+  --color-accent: #0b6e73;
+  --color-line: #d5e2e1;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0d1a1d;
+    --color-ink: #e4eeec;
+    --color-muted: #9db0b0;
+    --color-accent: #5acbc6;
+    --color-line: #24383b;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-line: var(--color-line);
+
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg);
+  }
+
+  /* One focus style everywhere, visible on any background in either theme. */
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
