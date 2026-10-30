@@ -16,8 +16,22 @@
   color-scheme: light;
 }
 
+/*
+  Dark theme. The pre-paint script in Base.astro sets data-theme on <html>
+  (stored choice, else system). Without JS, the media query below applies the
+  same values; keep the two blocks identical.
+*/
+:root[data-theme="dark"] {
+  --color-bg: #0d1a1d;
+  --color-ink: #e4eeec;
+  --color-muted: #9db0b0;
+  --color-accent: #5acbc6;
+  --color-line: #24383b;
+  color-scheme: dark;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --color-bg: #0d1a1d;
     --color-ink: #e4eeec;
     --color-muted: #9db0b0;
