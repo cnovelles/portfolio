@@ -1,0 +1,90 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { identity } from "../../data/profile";
+import { getAllProjects, type Project } from "../../lib/project-collection";
+import { formatDateRange } from "../../lib/projects";
+
+export async function getStaticPaths() {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const pill =
+  "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
+const statusLabel = { "in-progress": "In progress", shipped: "Shipped" } as const;
+---
+
+<Base title={`${data.title} | ${identity.name}`} description={data.summary}>
+  <article aria-labelledby="project-heading" class="py-16 sm:py-24">
+    <p>
+      <a href="/#projects" class="text-[0.9375rem] font-medium text-accent hover:text-ink">
+        ← All projects
+      </a>
+    </p>
+    <h1
+      id="project-heading"
+      class="mt-6 font-display text-[clamp(2.25rem,6vw,3.5rem)] leading-[1.05] font-bold tracking-[-0.03em] text-balance"
+    >
+      {data.title}
+    </h1>
+    <p class="mt-5 max-w-[36em] text-lg leading-relaxed text-muted">{data.summary}</p>
+
+    <dl class="mt-8 grid gap-x-10 gap-y-4 text-[0.9375rem] sm:grid-cols-[max-content_1fr]">
+      <dt class="font-semibold">Role</dt>
+      <dd class="text-muted">{data.role}</dd>
+      <dt class="font-semibold">Status</dt>
+      <dd class="text-muted">{statusLabel[data.status]}</dd>
+      <dt class="font-semibold">Dates</dt>
+      <dd class="text-muted">{formatDateRange(data.startDate, data.endDate)}</dd>
+      <dt class="font-semibold">Stack</dt>
+      <dd class="text-muted">{data.stack.join(", ")}</dd>
+    </dl>
+
+    {
+      (data.repoUrl || data.liveUrl) && (
+        <ul class="mt-8 flex flex-wrap gap-2.5" aria-label={`Links for ${data.title}`}>
+          {data.liveUrl && (
+            <li>
+              <a href={data.liveUrl} class:list={[pill, "bg-accent text-bg hover:bg-ink"]}>
+                Live site<span class="sr-only">&nbsp;for {data.title}</span>
+              </a>
+            </li>
+          )}
+          {data.repoUrl && (
+            <li>
+              <a href={data.repoUrl} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
+                Source code<span class="sr-only">&nbsp;for {data.title}</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      )
+    }
+
+    {
+      data.cover && (
+        <Image
+          src={data.cover.src}
+          alt={data.cover.alt}
+          class="mt-12 h-auto w-full rounded-2xl border-[1.5px] border-line"
+        />
+      )
+    }
+
+    <div
+      class="mt-12 max-w-[42em] space-y-4 text-lg leading-relaxed text-muted [&_a]:text-accent [&_a]:underline [&_h2]:mt-10 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink [&_li]:ml-5 [&_ul]:list-disc"
+    >
+      <Content />
+    </div>
+  </article>
+</Base>
