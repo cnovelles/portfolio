@@ -12,7 +12,8 @@
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.2",
@@ -29,7 +30,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",
     "globals": "^17.13.0",
