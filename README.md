@@ -4,7 +4,7 @@
 
 Personal site for a full-stack software engineer: who I am, where I've worked, what I build with, and how to reach me.
 
-**Live:** [portfolio-xi-one-b66hmycebi.vercel.app](https://portfolio-xi-one-b66hmycebi.vercel.app)
+**Live:** [christiangonzalezlopez.com](https://www.christiangonzalezlopez.com)
 
 The repository is meant to be read as a code sample too: typed end to end, tested where logic lives, accessible by default, and checked in CI on every change.
 
