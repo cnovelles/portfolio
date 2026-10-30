@@ -1,43 +1,225 @@
-export interface ProfileLink {
-  label: string;
-  href: string;
-}
+import { z } from "astro/zod";
 
-export interface Identity {
-  name: string;
-  title: string;
-  location: string;
-  stackLine: string;
-  email: string;
-  resumePath: string;
-  links: {
-    resume: ProfileLink;
-    github: ProfileLink;
-    linkedin: ProfileLink;
-    email: ProfileLink;
-  };
-}
+/*
+  Profile data: the single source for every career claim on the site.
+  Wording mirrors the accurate resume (build_resume.py, ATLASSIAN_BALANCED).
+  Add nothing here that isn't on that resume.
+*/
+
+const linkSchema = z.object({
+  label: z.string().min(1),
+  href: z.string().min(1),
+});
+
+export const identitySchema = z.object({
+  name: z.string().min(1),
+  title: z.string().min(1),
+  location: z.string().min(1),
+  stackLine: z.string().min(1),
+  email: z.email(),
+  resumePath: z.string().regex(/^\/[\w-]+\.pdf$/),
+  links: z.object({
+    resume: linkSchema,
+    github: linkSchema,
+    linkedin: linkSchema,
+    email: linkSchema,
+  }),
+});
+
+/** A calendar month as "YYYY-MM", which is also a valid `<time datetime>`. */
+const yearMonthSchema = z
+  .string()
+  .regex(/^\d{4}-(0[1-9]|1[0-2])$/, "Expected a YYYY-MM date");
+
+export const experienceEntrySchema = z
+  .object({
+    company: z.string().trim().min(1),
+    // Some roles (e.g. research positions) have no formal title on the resume.
+    title: z.string().trim(),
+    location: z.string().trim().min(1).optional(),
+    start: yearMonthSchema,
+    end: yearMonthSchema,
+    bullets: z.array(z.string().trim().min(1)).min(1),
+  })
+  .refine((entry) => entry.end >= entry.start, {
+    message: "End date must not be before start date",
+    path: ["end"],
+  });
+
+export const skillGroupSchema = z.object({
+  name: z.string().trim().min(1),
+  skills: z.array(z.string().trim().min(1)).min(1),
+});
+
+export const profileSchema = z.object({
+  identity: identitySchema,
+  experience: z.array(experienceEntrySchema).min(1),
+  skillGroups: z.array(skillGroupSchema).min(1),
+  about: z.string().trim().min(1),
+});
+
+export type Identity = z.infer<typeof identitySchema>;
+export type ProfileLink = Identity["links"]["resume"];
+export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;
+export type SkillGroup = z.infer<typeof skillGroupSchema>;
+export type Profile = z.infer<typeof profileSchema>;
 
 const email = "gonzalezchristianlopez@gmail.com";
 
 // Stable public path: replace the file in /public, never rename it.
 const resumePath = "/Christian-Gonzalez-Resume.pdf";
 
-export const identity: Identity = {
-  name: "Christian Gonzalez Lopez",
-  title: "Full-Stack Software Engineer",
-  location: "Miami, FL",
-  stackLine:
-    "React and TypeScript on the front end, Node.js and Java REST APIs behind them. Most recently building payments experiences at American Express.",
-  email,
-  resumePath,
-  links: {
-    resume: { label: "Resume", href: resumePath },
-    github: { label: "GitHub", href: "https://github.com/cnovelles" },
-    linkedin: {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/in/christian-g-5509a013a",
+const vmwareBullets = [
+  "Built UI features for the cluster-management workflow of VMware Tanzu Community Edition, an open-source Kubernetes distribution, using React, React Hooks, the Clarity design system, and a Node.js REST API",
+  "Wrote comprehensive Jest unit tests covering component behavior and edge cases, reducing bugs before release",
+  "Collaborated with UX to deliver accessible, user-centered interfaces that matched design specifications",
+];
+
+const rawProfile = {
+  identity: {
+    name: "Christian Gonzalez Lopez",
+    title: "Full-Stack Software Engineer",
+    location: "Miami, FL",
+    stackLine:
+      "React and TypeScript on the front end, Node.js and Java REST APIs behind them. Most recently building payments experiences at American Express.",
+    email,
+    resumePath,
+    links: {
+      resume: { label: "Resume", href: resumePath },
+      github: { label: "GitHub", href: "https://github.com/cnovelles" },
+      linkedin: {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/christian-g-5509a013a",
+      },
+      email: { label: "Email", href: `mailto:${email}` },
     },
-    email: { label: "Email", href: `mailto:${email}` },
   },
-};
+  // Listed in any order; getExperience() returns them most recent first.
+  experience: [
+    {
+      company: "FIU Applied Research Center / Pacific Northwest National Laboratory",
+      title: "",
+      start: "2020-11",
+      end: "2021-11",
+      bullets: [
+        "Deployed a deep learning crack-detection model as a REST web service using C# and ASP.NET, MySQL, and Azure",
+        "Implemented a published time-series algorithm to fill gaps in spatial-temporal data across PNNL and FIU research teams",
+      ],
+    },
+    {
+      company: "American Express",
+      title: "Full Stack Software Engineer, Credit & Collections",
+      start: "2023-03",
+      end: "2026-05",
+      bullets: [
+        "Built customer-facing React and TypeScript micro-frontends on One App, AmEx's open-source micro-frontend framework, and the Node.js and Java REST APIs behind them, serving millions of users across 7 international markets",
+        "Helped drive a large-scale modernization of the legacy payments journeys into 10+ modern React repositories, grooming stories and independently building testable, scalable components now live in production",
+        "Integrated enterprise CMS content into React applications and configured monitoring and alerts for backend services, fixing complex production bugs to keep features reliable",
+        "Improved page load performance ~25% through lazy loading, Webpack code splitting, and render optimization, delivering cross-browser, accessible UIs with UX designers",
+        "Owned releases end to end for each market launch: semver-versioned, synchronized deployments of interdependent modules, QE and UAT support, and off-hours production deployments validated with live accounts, shipping high-quality code through CI/CD with Jest, React Testing Library, and ESLint",
+      ],
+    },
+    {
+      company: "VMware",
+      title: "Front End Software Engineering Intern",
+      location: "Remote",
+      start: "2022-06",
+      end: "2022-08",
+      bullets: vmwareBullets,
+    },
+  ],
+  skillGroups: [
+    {
+      name: "Frontend",
+      skills: ["React", "TypeScript", "JavaScript (ES6+)", "React Hooks", "Redux", "HTML5", "CSS3", "Cross-Browser", "Accessibility (WCAG)"],
+    },
+    {
+      name: "Backend & Cloud",
+      skills: ["Node.js", "Express", "Java", "Spring Boot", "REST APIs", "MySQL", "AWS", "Docker", "NGINX", "npm"],
+    },
+    {
+      name: "Frontend Ecosystem",
+      skills: ["Webpack (bundling)", "ESLint", "Jest", "React Testing Library", "Feature Flags", "Jenkins", "GitHub Actions", "Git"],
+    },
+    {
+      name: "Practices",
+      skills: ["Agile/Scrum", "Code Review", "Technical Documentation", "Monitoring & Alerting", "Performance", "Debugging"],
+    },
+    {
+      name: "Tools",
+      skills: ["CMS Integration", "Figma", "Postman", "AI-Assisted Development (Claude, Cursor, Copilot)"],
+    },
+  ],
+  about:
+    "Software engineer with 3+ years building large-scale React, TypeScript, and Node.js applications for millions of customers at American Express, from fast, efficient customer-facing React components to REST APIs, content management system (CMS) integrations, and backend monitoring. Autonomously delivers features from story grooming through production release and partners closely with design and product in Agile teams.",
+} satisfies Profile;
+
+// Parsed at import, so malformed data fails the build rather than rendering.
+const profile: Profile = profileSchema.parse(rawProfile);
+
+export const identity: Identity = profile.identity;
+
+/** Experience entries, most recent first (by end date, then start date). */
+export function getExperience(): ExperienceEntry[] {
+  return [...profile.experience].sort(
+    (a, b) => b.end.localeCompare(a.end) || b.start.localeCompare(a.start),
+  );
+}
+
+export function getSkillGroups(): SkillGroup[] {
+  return profile.skillGroups;
+}
+
+export function getAbout(): string {
+  return profile.about;
+}
+
+const monthFormat = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+
+/** Formats a "YYYY-MM" date for display, e.g. "2023-03" → "Mar 2023". */
+export function formatYearMonth(yearMonth: string): string {
+  const [year, month] = yearMonth.split("-").map(Number);
+  return monthFormat.format(new Date(Date.UTC(year, month - 1)));
+}
+
+/*
+  Retracted claims: phrasing from older resume drafts that overstated the work.
+  None of it may appear in experience text; the test suite enforces this in CI.
+*/
+export const RETRACTED_PHRASES = [
+  "5+ teams",
+  "led a self-directed migration",
+  "self-directed",
+  "owning it from technical design to launch",
+  "launched",
+  "standardized components",
+  "published internal npm packages",
+  "published npm packages",
+  "built the complete UI",
+  "complete UI workflow",
+  "spearheaded",
+  "pioneered",
+  "design system adopted by",
+] as const;
+
+export interface RetractedClaim {
+  phrase: string;
+  company: string;
+  text: string;
+}
+
+/** Returns every retracted phrase found (case-insensitively) in the entries' text. */
+export function findRetractedClaims(entries: readonly ExperienceEntry[]): RetractedClaim[] {
+  return entries.flatMap((entry) => {
+    const texts = [entry.company, entry.title, entry.location ?? "", ...entry.bullets];
+    return texts.flatMap((text) =>
+      RETRACTED_PHRASES.filter((phrase) =>
+        text.toLowerCase().includes(phrase.toLowerCase()),
+      ).map((phrase) => ({ phrase, company: entry.company, text })),
+    );
+  });
+}
