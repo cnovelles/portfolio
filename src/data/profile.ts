@@ -161,6 +161,7 @@ const rawProfile = {
         "Implemented a published time-series algorithm to fill gaps in spatial-temporal data across PNNL and FIU research teams",
         "Ran correlation analysis on complex well systems to find spatial-temporal patterns",
       ],
+      tech: [],
     },
     {
       company: "American Express",
