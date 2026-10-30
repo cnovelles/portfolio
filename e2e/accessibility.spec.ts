@@ -71,3 +71,9 @@ test("theme toggle works from the keyboard and persists", async ({ page }) => {
   await page.reload();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
+
+test("back to top returns to the top of the page", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Back to top" }).click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+});
