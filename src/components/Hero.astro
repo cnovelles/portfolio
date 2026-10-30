@@ -1,0 +1,39 @@
+---
+import { identity } from "../data/profile";
+
+const { resume, github, linkedin, email } = identity.links;
+const secondaryLinks = [github, linkedin, email];
+---
+
+<section aria-labelledby="hero-heading" class="py-24 sm:py-32">
+  <p class="text-sm font-medium tracking-wide text-zinc-600">{identity.location}</p>
+  <h1 id="hero-heading" class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
+    {identity.name}
+  </h1>
+  <p class="mt-2 text-xl text-zinc-700 sm:text-2xl">{identity.title}</p>
+  <p class="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-700">{identity.stackLine}</p>
+
+  <ul class="mt-10 flex flex-wrap items-center gap-3" aria-label="Links">
+    <li>
+      <a
+        href={resume.href}
+        download
+        class="inline-block rounded-md bg-zinc-900 px-5 py-2.5 font-medium text-white hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
+      >
+        {resume.label} <span class="sr-only">(PDF)</span>
+      </a>
+    </li>
+    {
+      secondaryLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="inline-block rounded-md border border-zinc-300 px-5 py-2.5 font-medium hover:border-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
