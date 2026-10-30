@@ -1,12 +1,13 @@
 ---
 /*
-  Company logo tile: each organization's official square app icon, taken from
-  its own website (the same marks LinkedIn shows) and displayed unaltered.
+  Company logo tile: each organization's official square logo (the same marks
+  LinkedIn shows), displayed unaltered.
   Decorative: the company name is always printed next to the tile.
 */
 import { Image } from "astro:assets";
 import americanExpress from "../assets/logos/american-express.png";
 import fiuArc from "../assets/logos/fiu-arc.png";
+import pnnl from "../assets/logos/pnnl.png";
 import vmware from "../assets/logos/vmware.png";
 import type { ExperienceEntry } from "../data/profile";
 
@@ -18,7 +19,7 @@ interface Props {
 
 const { logo, monogram, size = "md" } = Astro.props;
 
-const logos = { "american-express": americanExpress, vmware, "fiu-arc": fiuArc } as const;
+const logos = { "american-express": americanExpress, vmware, "fiu-arc": fiuArc, pnnl } as const;
 
 const px = size === "sm" ? 28 : 48;
 const tile = size === "sm" ? "size-7 rounded-md" : "size-12 rounded-xl";

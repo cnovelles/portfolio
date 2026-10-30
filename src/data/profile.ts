@@ -46,7 +46,7 @@ export const experienceEntrySchema = z
     title: z.string().trim(),
     location: z.string().trim().min(1).optional(),
     /** Company logo file in src/assets/logos; roles without one get a monogram. */
-    logo: z.enum(["american-express", "vmware", "fiu-arc"]).optional(),
+    logo: z.enum(["american-express", "vmware", "fiu-arc", "pnnl"]).optional(),
     /** Short text for the monogram tile when there is no logo. */
     monogram: z.string().trim().min(1).max(4).optional(),
     /** One plain sentence on what the role was about. */
@@ -153,7 +153,7 @@ const rawProfile = {
     {
       company: "Pacific Northwest National Laboratory",
       title: "Research Intern",
-      monogram: "PNNL",
+      logo: "pnnl",
       summary: "12-week summer research internship working with PNNL and FIU research teams.",
       start: "2021-06",
       end: "2021-08",
