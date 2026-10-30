@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title="Page not found"
+  description="The page you were looking for doesn't exist or has moved."
+  path="/404"
+>
+  <section aria-labelledby="not-found-heading" class="py-20 sm:py-32">
+    <p class="text-[0.9375rem] font-semibold text-accent">Error 404</p>
+    <h1
+      id="not-found-heading"
+      class="mt-4 font-display text-[clamp(2.5rem,7vw,4.25rem)] leading-[0.95] font-bold tracking-[-0.03em] text-balance"
+    >
+      Page not found
+    </h1>
+    <p class="mt-5 max-w-[36em] text-lg leading-relaxed text-muted">
+      This page doesn't exist or has moved. Check the address, or head back to the home page.
+    </p>
+    <p class="mt-10">
+      <a
+        href="/"
+        class="inline-flex min-h-11 items-center rounded-full bg-accent px-5 font-medium text-bg transition-colors hover:bg-ink"
+      >
+        Back to home
+      </a>
+    </p>
+  </section>
+</Base>

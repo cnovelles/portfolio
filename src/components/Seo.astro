@@ -1,0 +1,24 @@
+---
+import { buildMeta, type PageMetaInput } from "../lib/seo";
+
+type Props = PageMetaInput;
+
+if (!Astro.site) throw new Error("Set `site` in astro.config.mjs so meta URLs are absolute.");
+
+const meta = buildMeta(
+  { ...Astro.props, path: Astro.props.path ?? Astro.url.pathname },
+  Astro.site,
+);
+---
+
+<title>{meta.title}</title>
+<link rel="canonical" href={meta.canonical} />
+{
+  meta.tags.map((tag) =>
+    tag.attr === "property" ? (
+      <meta property={tag.key} content={tag.content} />
+    ) : (
+      <meta name={tag.key} content={tag.content} />
+    ),
+  )
+}
