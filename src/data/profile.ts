@@ -46,7 +46,7 @@ export const experienceEntrySchema = z
     title: z.string().trim(),
     location: z.string().trim().min(1).optional(),
     /** Company logo file in src/assets/logos; roles without one get a monogram. */
-    logo: z.enum(["american-express", "vmware"]).optional(),
+    logo: z.enum(["american-express", "vmware", "fiu-arc"]).optional(),
     /** Short text for the monogram tile when there is no logo. */
     monogram: z.string().trim().min(1).max(4).optional(),
     /** One plain sentence on what the role was about. */
@@ -141,7 +141,7 @@ const rawProfile = {
     {
       company: "FIU Applied Research Center / Pacific Northwest National Laboratory",
       title: "Undergraduate Research Fellow",
-      monogram: "FIU",
+      logo: "fiu-arc",
       summary: "Research software for FIU and Pacific Northwest National Laboratory teams.",
       start: "2020-11",
       end: "2021-11",

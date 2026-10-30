@@ -1,12 +1,13 @@
 ---
 /*
-  Company logo tile. Official marks from Simple Icons (CC0 files; the logos
-  remain their owners' trademarks), shown unaltered in brand color on a white
-  tile so they read the same in both themes. Decorative: the company name is
-  always printed next to the tile.
+  Company logo tile: each organization's official square app icon, taken from
+  its own website (the same marks LinkedIn shows) and displayed unaltered.
+  Decorative: the company name is always printed next to the tile.
 */
-import AmericanExpress from "../assets/logos/american-express.svg";
-import VMware from "../assets/logos/vmware.svg";
+import { Image } from "astro:assets";
+import americanExpress from "../assets/logos/american-express.png";
+import fiuArc from "../assets/logos/fiu-arc.png";
+import vmware from "../assets/logos/vmware.png";
 import type { ExperienceEntry } from "../data/profile";
 
 interface Props {
@@ -17,22 +18,23 @@ interface Props {
 
 const { logo, monogram, size = "md" } = Astro.props;
 
-const logos = {
-  "american-express": { Mark: AmericanExpress, color: "#2E77BC", wide: false },
-  // A wordmark: less padding so it stays legible in a square tile.
-  vmware: { Mark: VMware, color: "#607078", wide: true },
-} as const;
+const logos = { "american-express": americanExpress, vmware, "fiu-arc": fiuArc } as const;
 
-const entry = logo ? logos[logo] : undefined;
-const padding = entry?.wide ? (size === "sm" ? "p-0.5" : "p-1") : size === "sm" ? "p-1" : "p-2.5";
-const tile = [size === "sm" ? "size-7 rounded-md" : "size-12 rounded-xl", padding];
+const px = size === "sm" ? 28 : 48;
+const tile = size === "sm" ? "size-7 rounded-md" : "size-12 rounded-xl";
+const src = logo ? logos[logo] : undefined;
 ---
 
 {
-  entry ? (
-    <span aria-hidden="true" class:list={["inline-flex shrink-0 border border-line bg-white", tile]}>
-      <entry.Mark fill={entry.color} class="size-full" />
-    </span>
+  src ? (
+    <Image
+      src={src}
+      alt=""
+      width={px}
+      height={px}
+      densities={[1, 2]}
+      class:list={["shrink-0 border border-line bg-white object-contain", tile]}
+    />
   ) : (
     monogram && (
       <span
