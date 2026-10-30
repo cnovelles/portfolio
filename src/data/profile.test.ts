@@ -155,3 +155,20 @@ describe("education", () => {
     expect(result.success).toBe(false);
   });
 });
+
+describe("hero intro", () => {
+  const text = identity.intro
+    .flat()
+    .map((segment) => (typeof segment === "string" ? segment : segment.text))
+    .join(" ")
+    .toLowerCase();
+
+  it("introduces me by name and names my team", () => {
+    expect(text).toContain("i'm christian");
+    expect(text).toContain("credit & collections");
+  });
+
+  it("contains no retracted claims", () => {
+    expect(RETRACTED_PHRASES.filter((phrase) => text.includes(phrase.toLowerCase()))).toEqual([]);
+  });
+});

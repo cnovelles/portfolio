@@ -11,11 +11,19 @@ const linkSchema = z.object({
   href: z.string().min(1),
 });
 
+/** A run of hero text; with an href it renders as a link. */
+const introSegmentSchema = z.union([
+  z.string().min(1),
+  z.object({ text: z.string().min(1), href: z.url() }),
+]);
+
 export const identitySchema = z.object({
   name: z.string().min(1),
   title: z.string().min(1),
   location: z.string().min(1),
   stackLine: z.string().min(1),
+  /** Hero paragraphs, first person. */
+  intro: z.array(z.array(introSegmentSchema).min(1)).min(1),
   email: z.email(),
   resumePath: z.string().regex(/^\/[\w-]+\.pdf$/),
   links: z.object({
@@ -78,6 +86,7 @@ export const profileSchema = z.object({
 
 export type Identity = z.infer<typeof identitySchema>;
 export type ProfileLink = Identity["links"]["resume"];
+export type IntroSegment = z.infer<typeof introSegmentSchema>;
 export type ExperienceEntry = z.infer<typeof experienceEntrySchema>;
 export type SkillGroup = z.infer<typeof skillGroupSchema>;
 export type Credential = z.infer<typeof credentialSchema>;
@@ -101,6 +110,16 @@ const rawProfile = {
     location: "Miami, FL",
     stackLine:
       "React and TypeScript on the front end, Node.js and Java REST APIs behind them. Most recently building payments experiences at American Express.",
+    intro: [
+      [
+        "I'm Christian, a full-stack software engineer with 3+ years of professional experience building customer-facing React and TypeScript applications and the Node.js and Java services behind them.",
+      ],
+      [
+        "At American Express, I was on the Credit & Collections team, building the payments and bank-account experiences card members use as micro-frontends on ",
+        { text: "One App", href: "https://github.com/americanexpress/one-app" },
+        ", AmEx's open-source framework, for millions of customers in 7 international markets.",
+      ],
+    ],
     email,
     resumePath,
     links: {
