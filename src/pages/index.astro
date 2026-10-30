@@ -1,9 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
+import Projects from "../components/Projects.astro";
 import { identity } from "../data/profile";
 ---
 
 <Base title={`${identity.name} | ${identity.title}`} description={identity.stackLine}>
   <Hero />
+  <Projects />
 </Base>

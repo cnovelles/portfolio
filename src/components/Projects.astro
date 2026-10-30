@@ -1,0 +1,83 @@
+---
+import { identity } from "../data/profile";
+import { getProjectCatalog } from "../lib/project-collection";
+import { formatDateRange } from "../lib/projects";
+
+const catalog = await getProjectCatalog();
+const { github } = identity.links;
+
+const pill =
+  "inline-flex min-h-11 items-center rounded-full px-5 font-medium transition-colors";
+const statusLabel = { "in-progress": "In progress", shipped: "Shipped" } as const;
+---
+
+<section id="projects" aria-labelledby="projects-heading" class="border-t border-line py-16 sm:py-24">
+  <h2
+    id="projects-heading"
+    class="font-display text-[clamp(2rem,5vw,2.75rem)] leading-tight font-bold tracking-[-0.02em]"
+  >
+    Projects
+  </h2>
+
+  {
+    catalog.state === "empty" ? (
+      <div class="mt-6 max-w-[36em]">
+        <p class="text-lg leading-relaxed text-muted">
+          Write-ups of recent work are on the way. In the meantime, my code is on GitHub.
+        </p>
+        <p class="mt-8">
+          <a href={github.href} class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}>
+            See my GitHub profile
+          </a>
+        </p>
+      </div>
+    ) : (
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2">
+        {catalog.showcase.map(({ id, data }) => (
+          <li>
+            <article
+              aria-labelledby={`project-${id}`}
+              class="flex h-full flex-col rounded-2xl border-[1.5px] border-line p-6"
+            >
+              <h3 id={`project-${id}`} class="font-display text-2xl font-bold tracking-[-0.01em]">
+                <a href={`/projects/${id}/`} class="hover:text-accent">
+                  {data.title}
+                </a>
+              </h3>
+              <p class="mt-1 text-[0.9375rem] text-muted">
+                {statusLabel[data.status]} · {formatDateRange(data.startDate, data.endDate)}
+              </p>
+              <p class="mt-4 leading-relaxed text-muted">{data.summary}</p>
+              <ul class="mt-5 flex flex-wrap gap-2" aria-label={`Tech stack for ${data.title}`}>
+                {data.stack.map((tech) => (
+                  <li class="rounded-full border border-line px-3 py-1 text-sm">{tech}</li>
+                ))}
+              </ul>
+              {(data.repoUrl || data.liveUrl) && (
+                <ul class="mt-auto flex flex-wrap gap-2.5 pt-6" aria-label={`Links for ${data.title}`}>
+                  {data.liveUrl && (
+                    <li>
+                      <a href={data.liveUrl} class:list={[pill, "bg-accent text-bg hover:bg-ink"]}>
+                        Live site<span class="sr-only">&nbsp;for {data.title}</span>
+                      </a>
+                    </li>
+                  )}
+                  {data.repoUrl && (
+                    <li>
+                      <a
+                        href={data.repoUrl}
+                        class:list={[pill, "border-[1.5px] border-line hover:border-accent"]}
+                      >
+                        Source code<span class="sr-only">&nbsp;for {data.title}</span>
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              )}
+            </article>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>
