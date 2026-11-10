@@ -182,7 +182,7 @@ const rawProfile = {
     },
     {
       company: "VMware",
-      title: "Front End Software Engineering Intern",
+      title: "Software Engineer Intern",
       logo: "vmware",
       location: "Remote",
       summary: "Front-end internship on VMware Tanzu Community Edition, an open-source Kubernetes distribution.",
