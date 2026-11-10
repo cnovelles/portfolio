@@ -175,11 +175,12 @@ const rawProfile = {
       bullets: [
         "Built customer-facing React and TypeScript micro-frontends on One App, AmEx's open-source micro-frontend framework, and the Node.js and Java REST APIs behind them, serving millions of users across 7 international markets",
         "Helped drive a large-scale modernization of the legacy payments journeys into 10+ modern React repositories, grooming stories and independently building testable, scalable components now live in production",
+        "Contributed to an event-driven compliance letter scheduling system using Kafka, sending required customer notifications when account events occurred",
         "Integrated enterprise CMS content into React applications and configured monitoring and alerts for backend services, fixing complex production bugs to keep features reliable",
         "Improved page load performance ~25% through lazy loading, Webpack code splitting, and render optimization, delivering cross-browser, accessible UIs with UX designers",
         "Owned releases end to end for each market launch: semver-versioned, synchronized deployments of interdependent modules, QE and UAT support, and off-hours production deployments validated with live accounts, shipping high-quality code through CI/CD with Jest, React Testing Library, and ESLint",
       ],
-      tech: ["React", "TypeScript", "One App", "Node.js", "Java", "REST APIs", "GraphQL", "Webpack", "Jest", "React Testing Library"],
+      tech: ["React", "TypeScript", "One App", "Node.js", "Java", "REST APIs", "GraphQL", "Kafka", "Webpack", "Jest", "React Testing Library"],
     },
     {
       company: "VMware",
